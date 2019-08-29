@@ -8,4 +8,4 @@
 cd Stories-For-Sustainability
 npm start
 ```
-3. Scan the QR code in the Expo App
+3. Open the Expo app and scan the QR code you see in terminal

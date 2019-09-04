@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View} from 'react-native';
 import { Input, Button, Icon } from 'react-native-elements';
 
-export default class LoginScreen extends React.Component {
+export default class RegisterScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       email_valid: true,
       password: '',
+      confirm: '',
       login_failed: false,
       showLoading: false,
     };
@@ -33,7 +34,7 @@ export default class LoginScreen extends React.Component {
     }
   
   render() {
-    const { email, password, email_valid, showLoading } = this.state;
+    const { email, password, confirm, email_valid, showLoading } = this.state;
 
   return (
     <View style={styles.container}>
@@ -103,9 +104,33 @@ export default class LoginScreen extends React.Component {
               blurOnSubmit={true}
               placeholderTextColor="black"
             />
+            <Input
+              leftIcon={
+                <Icon
+                  name="lock"
+                  type="font-awesome"
+                  color="rgba(171, 189, 219, 1)"
+                  size={25}
+                />
+              }
+              containerStyle={{ marginVertical: 10 }}
+              onChangeText={confirm => this.setState({ confirm })}
+              value={confirm}
+              inputStyle={{ marginLeft: 10, color: 'black' }}
+              secureTextEntry={true}
+              keyboardAppearance="light"
+              placeholder="Confirm"
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="default"
+              returnKeyType="done"
+              ref={input => (this.confirmInput = input)}
+              blurOnSubmit={true}
+              placeholderTextColor="black"
+            />
           </View>
           <Button
-            title="LOG IN"
+            title="REGISTER"
             activeOpacity={1}
             underlayColor="transparent"
             //onPress={this.submitLoginCredentials.bind(this)}
@@ -126,14 +151,14 @@ export default class LoginScreen extends React.Component {
             titleStyle={{ fontWeight: 'bold', color: 'black' }}
           />
           <View style={styles.footerView}>
-            <Text style={{ color: 'grey' }}>New here?</Text>
+            <Text style={{ color: 'grey' }}>Already have an account?</Text>
             <Button
-              title="Create an Account"
+              title="Register"
               type="clear"
               activeOpacity={0.5}
               titleStyle={{ color: 'black', fontSize: 15 }}
               containerStyle={{ marginTop: -10 }}
-              onPress={() => this.props.navigation.navigate('Register')}
+              onPress={() => this.props.navigation.navigate('Auth')}
             />
           </View>
         </View>
@@ -142,8 +167,8 @@ export default class LoginScreen extends React.Component {
   )}
           }   
 
-  LoginScreen.navigationOptions = {
-    title: 'Login Page',
+  RegisterScreen.navigationOptions = {
+    title: 'Register Page',
   };
 
 const styles = StyleSheet.create({
@@ -154,7 +179,7 @@ const styles = StyleSheet.create({
     marginTop: 150,
     backgroundColor: 'transparent',
     width: 300,
-    height: 400,
+    height: 500,
     marginLeft: 50,
     justifyContent: 'center',
   },

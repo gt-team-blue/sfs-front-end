@@ -57,7 +57,7 @@ export default class LoginScreen extends React.Component {
                 />
               }
               containerStyle={{ marginVertical: 10 }}
-              onChangeText={email => setState({ email })}
+              onChangeText={email => this.setState({ email })}
               value={email}
               inputStyle={{ marginLeft: 10, color: 'black' }}
               keyboardAppearance="light"
@@ -68,11 +68,10 @@ export default class LoginScreen extends React.Component {
               keyboardType="email-address"
               returnKeyType="next"
               ref={input => (this.emailInput = input)}
-              /*onSubmitEditing={() => {
+              onSubmitEditing={() => {
                 this.setState({ email_valid: this.validateEmail(email) });
                 this.passwordInput.focus();
               }}
-              */
               blurOnSubmit={false}
               placeholderTextColor="black"
               errorStyle={{ textAlign: 'center', fontSize: 12 }}

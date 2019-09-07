@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View} from 'react-native';
 import { Input, Button, Icon } from 'react-native-elements';
+import * as Constants from '../constants/Network'
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -9,31 +10,46 @@ export default class LoginScreen extends React.Component {
       email: '',
       email_valid: true,
       password: '',
-      login_failed: false,
+      error_msg: '',
       showLoading: false,
     };
-    this.goToApp = this.goToApp.bind(this);
   }
     validateEmail(email) {
       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   
       return re.test(email);
     }
-  
+
     submitLoginCredentials() {
-      const { showLoading } = this.state;
-  
+      const { email, password } = this.state;
       this.setState({
-        showLoading: !showLoading,
+        showLoading: true
       });
-      
-    }
-    goToApp() {
-      this.props.navigation.navigate('App');
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", Constants.SERVER_URL + "/api/users/login");
+      xhr.setRequestHeader("Content-Type", "application/json")
+      var self = this
+      xhr.onreadystatechange = function() {
+        if (this.readyState == XMLHttpRequest.DONE) {
+          self.setState({
+            showLoading: false
+          });
+          var json = JSON.parse(this.response)
+          if(json.success && json.success == true) {
+            self.props.navigation.navigate('App');
+          } else {
+            self.setState({
+              error_msg: "Login error"
+            })
+          }
+        }
+      }
+      // agra.meha@gmail.com password2
+      xhr.send(JSON.stringify({"email": email, "password": password}))
     }
   
   render() {
-    const { email, password, email_valid, showLoading } = this.state;
+    const { email, password, email_valid, error_msg, showLoading } = this.state;
 
   return (
     <View style={styles.container}>
@@ -44,6 +60,9 @@ export default class LoginScreen extends React.Component {
             </View>
             <View style={{ marginTop: -10 }}>
               <Text style={styles.travelText}>Sustainability</Text>
+            </View>
+            <View style={{marginTop: 10}}>
+              <Text style={styles.errorText}>{error_msg}</Text>
             </View>
           </View>
           <View style={styles.loginInput}>
@@ -108,11 +127,10 @@ export default class LoginScreen extends React.Component {
             title="LOG IN"
             activeOpacity={1}
             underlayColor="transparent"
-            //onPress={this.submitLoginCredentials.bind(this)}
-            onPress={this.goToApp}
+            onPress={this.submitLoginCredentials.bind(this)}
             loading={showLoading}
             loadingProps={{ size: 'small', color: 'black' }}
-            disabled={!email_valid && password.length < 8}
+            disabled={!email_valid || password.length < 8}
             buttonStyle={{
               height: 50,
               width: 250,
@@ -167,6 +185,9 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 30,
     fontFamily: 'bold',
+  },
+  errorText: {
+    color: 'red'
   },
   plusText: {
     color: 'black',

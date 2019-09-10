@@ -2,7 +2,7 @@ import * as WebBrowser from "expo-web-browser";
 import React from "react";
 import { Button } from "react-native-elements";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-
+import LibraryBookshelf from "../components/LibraryBookshelf";
 import { MonoText } from "../components/StyledText";
 
 export default function HomeScreen() {
@@ -14,8 +14,7 @@ export default function HomeScreen() {
       >
         <View>
           <Text style={styles.libraryTitle}>Library</Text>
-          <Button title="" style={styles.buttonStyle} />
-          <View style={styles.rectangle} />
+          <LibraryBookshelf />
         </View>
       </ScrollView>
     </View>

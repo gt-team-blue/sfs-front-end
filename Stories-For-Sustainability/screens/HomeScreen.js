@@ -2,8 +2,22 @@ import * as WebBrowser from "expo-web-browser";
 import React from "react";
 import { Button } from "react-native-elements";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import LibraryBookshelf from "../components/LibraryBookshelf";
+import LibraryBookshelfs from "../components/LibraryBookshelfs";
 import { MonoText } from "../components/StyledText";
+
+const dummyTitles = [
+  "Title1",
+  "Title2",
+  "Title3",
+  "Title4",
+  "Title5",
+  "Title6",
+  "Title7",
+  "Title8",
+  "Title9",
+  "Title10",
+  "Title11"
+];
 
 export default function HomeScreen() {
   return (
@@ -14,7 +28,7 @@ export default function HomeScreen() {
       >
         <View>
           <Text style={styles.libraryTitle}>Library</Text>
-          <LibraryBookshelf />
+          <LibraryBookshelfs titlesList={dummyTitles} />
         </View>
       </ScrollView>
     </View>
@@ -30,51 +44,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff"
   },
-  buttonStyle: {
-    height: 87,
-    width: 64,
-    backgroundColor: "#D8D8D8",
-    borderRadius: 8,
-    marginLeft: 25,
-    alignSelf: "center"
-  },
   libraryTitle: {
     fontSize: 48,
+    paddingBottom: 30,
     alignSelf: "center",
-    color: "red"
+    color: "#6A7E9F"
   },
   contentContainer: {
-    paddingTop: 30
-  },
-  getStartedContainer: {
-    alignItems: "center",
-    marginHorizontal: 50
-  },
-  homeScreenFilename: {
-    marginVertical: 7
-  },
-  codeHighlightText: {
-    color: "rgba(96,100,109, 0.8)"
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: "rgba(96,100,109, 1)",
-    lineHeight: 24,
-    textAlign: "center"
-  },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: "rgba(96,100,109, 1)",
-    textAlign: "center"
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: "center"
-  },
-  rectangle: {
-    height: 6,
-    width: 299,
-    backgroundColor: "#FFD394",
-    borderRadius: 3
+    paddingTop: 125
   }
 });

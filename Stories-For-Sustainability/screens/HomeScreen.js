@@ -3,6 +3,7 @@ import React from "react";
 import { Button } from "react-native-elements";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import LibraryBookshelfs from "../components/LibraryBookshelfs";
+import Toggle from "../components/Toggle"
 import { MonoText } from "../components/StyledText";
 
 const dummyTitles = [
@@ -29,6 +30,10 @@ export default function HomeScreen() {
         <View>
           <Text style={styles.libraryTitle}>Library</Text>
           <LibraryBookshelfs titlesList={dummyTitles} />
+          {/* <Toggle/> */}
+        </View>
+        <View>
+          <Toggle/>
         </View>
       </ScrollView>
     </View>

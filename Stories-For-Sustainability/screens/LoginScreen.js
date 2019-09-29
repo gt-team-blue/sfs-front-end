@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View} from 'react-native';
+import { AsyncStorage } from 'react-native';
 import { Input, Button, Icon } from 'react-native-elements';
 import * as Constants from '../constants/Network'
 
@@ -14,39 +15,53 @@ export default class LoginScreen extends React.Component {
       showLoading: false,
     };
   }
-    validateEmail(email) {
-      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  
-      return re.test(email);
-    }
 
-    submitLoginCredentials() {
-      const { email, password } = this.state;
-      this.setState({
-        showLoading: true
-      });
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", Constants.SERVER_URL + "/api/users/login");
-      xhr.setRequestHeader("Content-Type", "application/json")
-      var self = this
-      xhr.onreadystatechange = function() {
-        if (this.readyState == XMLHttpRequest.DONE) {
+  componentWillMount() {
+    AsyncStorage.getItem('credentials').then((value) => {
+      if (value) {
+        let credentials = JSON.parse(value);
+        this.setState({
+          email: credentials.email,
+          password: credentials.password
+        });
+      }
+    });
+  }
+
+  validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    return re.test(email);
+  }
+
+  submitLoginCredentials() {
+    const { email, password } = this.state;
+    this.setState({
+      showLoading: true
+    });
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", Constants.SERVER_URL + "/api/users/login");
+    xhr.setRequestHeader("Content-Type", "application/json")
+    var self = this
+    xhr.onreadystatechange = function() {
+      if (this.readyState == XMLHttpRequest.DONE) {
+        self.setState({
+          showLoading: false
+        });
+        var json = JSON.parse(this.response)
+        if(json.success && json.success == true) {
+          AsyncStorage.setItem('credentials', JSON.stringify({email: email, password: password}));
+          self.props.navigation.navigate('App');
+        } else {
           self.setState({
-            showLoading: false
-          });
-          var json = JSON.parse(this.response)
-          if(json.success && json.success == true) {
-            self.props.navigation.navigate('App');
-          } else {
-            self.setState({
-              error_msg: "Login error"
-            })
-          }
+            error_msg: "Login error"
+          })
         }
       }
-      // agra.meha@gmail.com password2
-      xhr.send(JSON.stringify({"email": email, "password": password}))
     }
+    // agra.meha@gmail.com password2
+    xhr.send(JSON.stringify({"email": email, "password": password}))
+  }
   
   render() {
     const { email, password, email_valid, error_msg, showLoading } = this.state;

@@ -5,46 +5,32 @@ export default LibraryBookshelfs = ({ storiesList }) => {
   let bookshelfs = [];
   let titlesCounter = 0;
 
-  if (storiesList.length == 0) return bookshelfs;
+  function addBookRow(amount) {
+    var books = [];
+    for(let i = 0; i < amount; i++) {
+      books.push(<LibraryBook key={storiesList[titlesCounter]._id} story={storiesList[titlesCounter]} />);
+      titlesCounter++;
+    }
+    return books;
+  }
 
-  for (let i = 0; i < Math.ceil(storiesList.length / 3 - 1); i++) {
+  var i;
+  for (i = 0; i < Math.floor(storiesList.length / 3); i++) {
     bookshelfs.push(
-      <View>
+      <View key={i}>
         <View style={styles.books}>
-          <LibraryBook title={storiesList[titlesCounter++].title} />
-          <LibraryBook title={storiesList[titlesCounter++].title} />
-          <LibraryBook title={storiesList[titlesCounter++].title} />
+          {addBookRow(3)}
         </View>
         <LibraryShelf />
       </View>
     );
   }
-  if (storiesList.length % 3 === 0) {
+
+  if (storiesList.length % 3 > 0) {
     bookshelfs.push(
-      <View>
+      <View key={i+1}>
         <View style={styles.books}>
-          <LibraryBook title={storiesList[titlesCounter++].title} />
-          <LibraryBook title={storiesList[titlesCounter++].title} />
-          <LibraryBook title={storiesList[titlesCounter++].title} />
-        </View>
-        <LibraryShelf />
-      </View>
-    );
-  } else if (storiesList.length % 3 === 1) {
-    bookshelfs.push(
-      <View>
-        <View style={styles.books}>
-          <LibraryBook title={storiesList[titlesCounter++].title} />
-        </View>
-        <LibraryShelf />
-      </View>
-    );
-  } else if (storiesList.length % 3 === 2) {
-    bookshelfs.push(
-      <View>
-        <View style={styles.books}>
-          <LibraryBook title={storiesList[titlesCounter++].title} />
-          <LibraryBook title={storiesList[titlesCounter++].title} />
+          {addBookRow(storiesList.length % 3)}
         </View>
         <LibraryShelf />
       </View>
@@ -53,10 +39,13 @@ export default LibraryBookshelfs = ({ storiesList }) => {
   return <View>{bookshelfs}</View>;
 };
 
-export const LibraryBook = ({ title }) => {
+export const LibraryBook = ({ story }) => {
+  function onStoryPressed() {
+    
+  }
   return (
-    <TouchableOpacity style={styles.book}>
-      <Text style={styles.bookTitle}>{title}</Text>
+    <TouchableOpacity onPress={onStoryPressed} style={styles.book}>
+      <Text style={styles.bookTitle}>{story.title}</Text>
     </TouchableOpacity>
   );
 };

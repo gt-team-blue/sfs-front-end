@@ -134,6 +134,9 @@ export default LibraryBookshelfs = ({ titlesList }) => {
         <Image
         style={{width: 64, height: 87}}
         source={{uri: 'https://www.newpages.com/images/books/book-reviews/2018-07-03/sustainability-love-story-nicole-walker.jpg' }}/>
+        <Image
+        style={{width: 64, height: 87}}
+        source={{uri: 'https://i.imgur.com/6iJ3y9p.jpg' }}/>
       </View>
       <LibraryShelf />
     </View>

@@ -6,21 +6,7 @@ import LibraryBookshelfs from "../components/LibraryBookshelfs";
 import Toggle from "../components/Toggle"
 import { MonoText } from "../components/StyledText";
 
-const dummyTitles = [
-  "A Social History of the Nitrogen Cycle and the Challenge of Sustainability",
-  "Human Evolution for a Sustainable Future",
-  "The Humane Gardener",
-  "Kiss the Ground",
-  "Evie and the Animals",
-  "Cultural Sustainability",
-  "Zero Waste Books",
-  "The Green Giant",
-  "We are the Weather",
-  "The Upcycle",
-  "Sustainability"
-];
-
-export default function HomeScreen() {
+export default function BookScreen() {
   return (
     <View style={styles.container}>
       <ScrollView
@@ -28,20 +14,34 @@ export default function HomeScreen() {
         contentContainerStyle={styles.contentContainer}
       >
         <View>
-          <Text style={styles.libraryTitle}>Library</Text>
-          <LibraryBookshelfs titlesList={dummyTitles} />
+          <Image source={require('/Users/vfanelle/Downloads/test.jpeg')} /> 
+          {/* ./  */}
+          <Text style={styles.bookTitle}>Title</Text>
+          <Text style={styles.bookTitle}>Author</Text>
+          <Text style={styles.bookTitle}>Genre</Text>
+          <Text style={styles.bookTitle}>Creator</Text>
+          <Text style={styles.bookTitle}>Creation Date</Text>
+          <Text style={styles.bookTitle}>SDG</Text>
+          {/* <LibraryBookshelfs titlesList={dummyTitles} /> */}
           {/* <Toggle/> */}
         </View>
-        <View>
+        <Button
+          title="Go back"
+          onPress={() => this.props.navigation.goBack()}
+        />
+        {/* <View>
           <Toggle/>
-        </View>
+        </View> */}
       </ScrollView>
     </View>
   );
 }
 
-HomeScreen.navigationOptions = {
-  header: null
+BookScreen.navigationOptions = {
+  title: "Book Info",
+  headerStyle: {
+  backgroundColor: "#73C6B6"
+  }
 };
 
 const styles = StyleSheet.create({
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff"
   },
-  libraryTitle: {
+  bookTitle: {
     fontSize: 48,
     paddingBottom: 30,
     alignSelf: "center",

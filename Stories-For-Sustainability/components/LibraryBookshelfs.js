@@ -80,13 +80,13 @@ export default LibraryBookshelfs = ({ titlesList }) => {
     <View>
       <View style={styles.books}>
         <Image
-        style={{width: 64, height: 87}}
+        style={{width: 64, height: 87, margin: 15}}
         source={{uri: 'https://images.squarespace-cdn.com/content/v1/554e7d75e4b09fe6f89a5e0f/1554235064296-T7RNZKUBZA4H9AMN8GG4/ke17ZwdGBToddI8pDm48kNoQXmF2Qa1YBek5qK0FjyBZw-zPPgdn4jUwVcJE1ZvWEtT5uBSRWt4vQZAgTJucoTqqXjS3CfNDSuuf31e0tVEZKXicrRuDv7JbZ9NsMc3vdOvRPCWbke_IJkR4plMETwiClsxSxtrZJWuVCy_h5Ks/12+best+sustainability+books+to+inspire+change' }}/>
         <Image
-        style={{width: 64, height: 87}}
+        style={{width: 64, height: 87, margin: 15}}
         source={{uri: 'https://covers.oreillystatic.com/images/0636920043904/lrg.jpg' }}/>
         <Image
-        style={{width: 64, height: 87}}
+        style={{width: 64, height: 87, margin: 15}}
         source={{uri: 'https://images-na.ssl-images-amazon.com/images/I/51eRyFm9kxL.jpg' }}/>
 
       </View>
@@ -97,13 +97,13 @@ export default LibraryBookshelfs = ({ titlesList }) => {
         <View>
           <View style={styles.books}>
             <Image
-            style={{width: 64, height: 87}}
+            style={{width: 64, height: 87, margin: 15}}
             source={{uri: 'https://images.gr-assets.com/books/1360236352l/16066814.jpg' }}/>
             <Image
-            style={{width: 64, height: 87}}
+            style={{width: 64, height: 87, margin: 15}}
             source={{uri: 'https://images.gr-assets.com/books/1417605547l/5571.jpg' }}/>
             <Image
-            style={{width: 64, height: 87}}
+            style={{width: 64, height: 87, margin: 15}}
             source={{uri: 'https://images-na.ssl-images-amazon.com/images/I/412brLaUVUL._SX352_BO1,204,203,200_.jpg' }}/>
           </View>
           <LibraryShelf />
@@ -113,13 +113,13 @@ export default LibraryBookshelfs = ({ titlesList }) => {
         <View>
           <View style={styles.books}>
             <Image
-            style={{width: 64, height: 87}}
+            style={{width: 64, height: 87, margin: 15}}
             source={{uri: 'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1396229534l/21492074.jpg' }}/>
             <Image
-            style={{width: 64, height: 87}}
+            style={{width: 64, height: 87, margin: 15}}
             source={{uri: 'http://www.newsociety.com/var/newsociety/storage/images/books/s/the-sustainability-champion-s-guidebook/image-front-cover/945583-1-eng-CA/Image-front-cover_coverbookpage.jpg' }}/>
             <Image
-            style={{width: 64, height: 87}}
+            style={{width: 64, height: 87, margin: 15}}
             source={{uri: 'https://www1.alibris-static.com/regreening-the-built-environment-nature-green-space-and-sustainability/isbn/9781138718791_l.jpg' }}/>
           </View>
           <LibraryShelf />
@@ -129,10 +129,10 @@ export default LibraryBookshelfs = ({ titlesList }) => {
     <View>
       <View style={styles.books}>
         <Image
-        style={{width: 64, height: 87}}
+        style={{width: 64, height: 87, margin: 15}}
         source={{uri: 'https://www.bagsofbooklists.com/assets/sites/3/GreenGiant-371x371.jpg' }}/>
         <Image
-        style={{width: 64, height: 87}}
+        style={{width: 64, height: 87, margin: 15}}
         source={{uri: 'https://www.newpages.com/images/books/book-reviews/2018-07-03/sustainability-love-story-nicole-walker.jpg' }}/>
       </View>
       <LibraryShelf />

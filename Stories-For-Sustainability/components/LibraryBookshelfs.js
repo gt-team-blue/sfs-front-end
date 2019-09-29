@@ -1,48 +1,50 @@
 import React, { Component } from "react";
 import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
 
-export default LibraryBookshelfs = ({ titlesList }) => {
+export default LibraryBookshelfs = ({ storiesList }) => {
   let bookshelfs = [];
   let titlesCounter = 0;
 
-  for (let i = 0; i < Math.ceil(titlesList.length / 3 - 1); i++) {
+  if (storiesList.length == 0) return bookshelfs;
+
+  for (let i = 0; i < Math.ceil(storiesList.length / 3 - 1); i++) {
     bookshelfs.push(
       <View>
         <View style={styles.books}>
-          <LibraryBook title={titlesList[titlesCounter++]} />
-          <LibraryBook title={titlesList[titlesCounter++]} />
-          <LibraryBook title={titlesList[titlesCounter++]} />
+          <LibraryBook title={storiesList[titlesCounter++].title} />
+          <LibraryBook title={storiesList[titlesCounter++].title} />
+          <LibraryBook title={storiesList[titlesCounter++].title} />
         </View>
         <LibraryShelf />
       </View>
     );
   }
-  if (titlesList.length % 3 === 0) {
+  if (storiesList.length % 3 === 0) {
     bookshelfs.push(
       <View>
         <View style={styles.books}>
-          <LibraryBook title={titlesList[titlesCounter++]} />
-          <LibraryBook title={titlesList[titlesCounter++]} />
-          <LibraryBook title={titlesList[titlesCounter++]} />
+          <LibraryBook title={storiesList[titlesCounter++].title} />
+          <LibraryBook title={storiesList[titlesCounter++].title} />
+          <LibraryBook title={storiesList[titlesCounter++].title} />
         </View>
         <LibraryShelf />
       </View>
     );
-  } else if (titlesList.length % 3 === 1) {
+  } else if (storiesList.length % 3 === 1) {
     bookshelfs.push(
       <View>
         <View style={styles.books}>
-          <LibraryBook title={titlesList[titlesCounter++]} />
+          <LibraryBook title={storiesList[titlesCounter++].title} />
         </View>
         <LibraryShelf />
       </View>
     );
-  } else if (titlesList.length % 3 === 2) {
+  } else if (storiesList.length % 3 === 2) {
     bookshelfs.push(
       <View>
         <View style={styles.books}>
-          <LibraryBook title={titlesList[titlesCounter++]} />
-          <LibraryBook title={titlesList[titlesCounter++]} />
+          <LibraryBook title={storiesList[titlesCounter++].title} />
+          <LibraryBook title={storiesList[titlesCounter++].title} />
         </View>
         <LibraryShelf />
       </View>

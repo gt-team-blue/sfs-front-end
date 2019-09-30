@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View} from 'react-native';
 import { AsyncStorage } from 'react-native';
 import { Input, Button, Icon } from 'react-native-elements';
-import * as Constants from '../constants/Network'
+import * as Constants from '../constants/Network';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {

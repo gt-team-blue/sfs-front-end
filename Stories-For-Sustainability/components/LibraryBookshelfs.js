@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
+import * as Constants from '../constants/Network';
 
-export default LibraryBookshelfs = ({ storiesList }) => {
+export default LibraryBookshelfs = ({ storiesList, props }) => {
   let bookshelfs = [];
   let titlesCounter = 0;
 
   function addBookRow(amount) {
     var books = [];
     for(let i = 0; i < amount; i++) {
-      books.push(<LibraryBook key={storiesList[titlesCounter]._id} story={storiesList[titlesCounter]} />);
+      books.push(<LibraryBook key={storiesList[titlesCounter]._id} story={storiesList[titlesCounter]} props={props} />);
       titlesCounter++;
     }
     return books;
@@ -39,9 +40,19 @@ export default LibraryBookshelfs = ({ storiesList }) => {
   return <View>{bookshelfs}</View>;
 };
 
-export const LibraryBook = ({ story }) => {
+export const LibraryBook = ({ story, props }) => {
   function onStoryPressed() {
-    
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", Constants.SERVER_URL + "/api/stories/download/" + story._id);
+    xhr.responseType = 'blob';
+    xhr.onload = () => {
+      let reader = new FileReader();
+      reader.readAsDataURL(xhr.response);
+      reader.onload = () => {
+        props.navigation.navigate('Story', {pdfData: Constants.SERVER_URL + "/api/stories/download/" + story._id});
+      };
+    }
+    xhr.send();
   }
   return (
     <TouchableOpacity onPress={onStoryPressed} style={styles.book}>

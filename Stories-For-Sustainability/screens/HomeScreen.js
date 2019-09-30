@@ -1,9 +1,6 @@
-import * as WebBrowser from "expo-web-browser";
 import React from "react";
-import { Button } from "react-native-elements";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import LibraryBookshelfs from "../components/LibraryBookshelfs";
-import { MonoText } from "../components/StyledText";
 import * as Constants from '../constants/Network'
 
 const styles = StyleSheet.create({
@@ -23,7 +20,7 @@ const styles = StyleSheet.create({
 });
 
 export default class HomeScreen extends React.Component {
-  constructor(props){
+  constructor(props) {
     super()
     this.state = {
       stories: [],
@@ -63,7 +60,7 @@ export default class HomeScreen extends React.Component {
         >
           <View>
             <Text style={styles.libraryTitle}>Library</Text>
-            <LibraryBookshelfs storiesList={this.state.stories} />
+            <LibraryBookshelfs storiesList={this.state.stories} props={this.props} />
           </View>
         </ScrollView>
       </View>

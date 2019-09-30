@@ -9,3 +9,15 @@ npm-debug.*
 *.orig.*
 web-build/
 web-report/
+ios/Pods/**/*
+ios/build/**/*
+ios/Podfile.lock
+android/.gradle
+.DS_Store
+
+# Xcode
+**/*.xcodeproj
+**/*.pbxproj
+**/*.xcworkspacedata
+**/*.xcsettings
+**/*.xcscheme

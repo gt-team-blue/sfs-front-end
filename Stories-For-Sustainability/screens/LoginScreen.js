@@ -59,7 +59,7 @@ export default class LoginScreen extends React.Component {
         }
       }
     }
-    // agra.meha@gmail.com password2
+
     xhr.send(JSON.stringify({"email": email, "password": password}))
   }
   
@@ -173,7 +173,7 @@ export default class LoginScreen extends React.Component {
     </View>
 
   )}
-          }   
+}   
 
   LoginScreen.navigationOptions = {
     title: 'Login Page',

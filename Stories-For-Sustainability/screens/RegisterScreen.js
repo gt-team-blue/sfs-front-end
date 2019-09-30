@@ -27,7 +27,6 @@ export default class RegisterScreen extends React.Component {
         showLoading: true
       });
       var xhr = new XMLHttpRequest();
-      console.log("test")
       xhr.open("POST", Constants.SERVER_URL + "/api/users/register");
       xhr.setRequestHeader("Content-Type", "application/json")
       var self = this
@@ -37,7 +36,6 @@ export default class RegisterScreen extends React.Component {
             showLoading: false
           });
           var json = JSON.parse(this.response)
-          console.log(this.response)
           if(json.name != null && this.status == 200) {
             self.props.navigation.navigate('App');
           } else {

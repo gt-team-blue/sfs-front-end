@@ -42,17 +42,10 @@ export default LibraryBookshelfs = ({ storiesList, props }) => {
 
 export const LibraryBook = ({ story, props }) => {
   function onStoryPressed() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", Constants.SERVER_URL + "/api/stories/download/" + story._id);
-    xhr.responseType = 'blob';
-    xhr.onload = () => {
-      let reader = new FileReader();
-      reader.readAsDataURL(xhr.response);
-      reader.onload = () => {
-        props.navigation.navigate('Story', {pdfData: Constants.SERVER_URL + "/api/stories/download/" + story._id});
-      };
-    }
-    xhr.send();
+    props.navigation.navigate('Story', {
+      pdfUrl: Constants.SERVER_URL + "/api/stories/download/" + story._id,
+      storyId: story._id
+    });
   }
   return (
     <TouchableOpacity onPress={onStoryPressed} style={styles.book}>

@@ -45,6 +45,7 @@ export default class StoryScreen extends React.Component {
         <View style={styles.container}>
             <Pdf
                 page={this.state.startPage}
+                enablePaging={true}
                 source={source}
                 onPageChanged={(page, numberOfPages)=>{
                     AsyncStorage.setItem('lastPage_' + storyId, JSON.stringify({page: page}));

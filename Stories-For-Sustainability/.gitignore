@@ -16,8 +16,3 @@ android/.gradle
 .DS_Store
 
 # Xcode
-**/*.xcodeproj
-**/*.pbxproj
-**/*.xcworkspacedata
-**/*.xcsettings
-**/*.xcscheme

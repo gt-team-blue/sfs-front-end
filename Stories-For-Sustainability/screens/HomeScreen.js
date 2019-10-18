@@ -1,48 +1,10 @@
-import * as WebBrowser from "expo-web-browser";
 import React from "react";
-import { Button } from "react-native-elements";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import LibraryBookshelfs from "../components/LibraryBookshelfs";
 import Toggle from "../components/Toggle"
 import { MonoText } from "../components/StyledText";
+import * as Constants from '../constants/Network'
 
-const dummyTitles = [
-  "Title1",
-  "Title2",
-  "Title3",
-  "Title4",
-  "Title5",
-  "Title6",
-  "Title7",
-  "Title8",
-  "Title9",
-  "Title10",
-  "Title11"
-];
-
-export default function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}
-      >
-        <View>
-          <Text style={styles.libraryTitle}>Library</Text>
-          <LibraryBookshelfs titlesList={dummyTitles} />
-          {/* <Toggle/> */}
-        </View>
-        <View>
-          <Toggle/>
-        </View>
-      </ScrollView>
-    </View>
-  );
-}
-
-HomeScreen.navigationOptions = {
-  header: null
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -59,3 +21,59 @@ const styles = StyleSheet.create({
     paddingTop: 125
   }
 });
+
+export default class HomeScreen extends React.Component {
+  constructor(props) {
+    super()
+    this.state = {
+      stories: [],
+      isLoading: true
+    }
+  }
+  componentWillMount() {
+    this.setState({
+      isLoading: true
+    });
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", Constants.SERVER_URL + "/api/stories/stories");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    var self = this;
+    xhr.onreadystatechange = function() {
+      if (this.readyState == XMLHttpRequest.DONE) {
+        var json = JSON.parse(this.response)
+        if(json.success && json.success == true) {
+          self.setState({
+            stories: json.data
+          })
+        }
+        self.setState({
+          isLoading: false
+        });
+      }
+    }
+    xhr.send()
+  }
+  render() {
+    if(this.state.isLoading) return (<Text/>);
+    return (
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}
+        >
+          <View>
+            <Text style={styles.libraryTitle}>Library</Text>
+            <LibraryBookshelfs storiesList={this.state.stories} props={this.props} />
+          </View>
+          <View>
+            <Toggle/>
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
+
+  navigationOptions = {
+    header: null
+  };
+}

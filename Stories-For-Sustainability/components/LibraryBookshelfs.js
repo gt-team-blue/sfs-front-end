@@ -1,48 +1,37 @@
 import React, { Component } from "react";
 import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
+import * as Constants from '../constants/Network';
 
-export default LibraryBookshelfs = ({ titlesList }) => {
+export default LibraryBookshelfs = ({ storiesList, props }) => {
   let bookshelfs = [];
   let titlesCounter = 0;
 
-  for (let i = 0; i < Math.ceil(titlesList.length / 3 - 1); i++) {
+  function addBookRow(amount) {
+    var books = [];
+    for(let i = 0; i < amount; i++) {
+      books.push(<LibraryBook key={storiesList[titlesCounter]._id} story={storiesList[titlesCounter]} props={props} />);
+      titlesCounter++;
+    }
+    return books;
+  }
+
+  var i;
+  for (i = 0; i < Math.floor(storiesList.length / 3); i++) {
     bookshelfs.push(
-      <View>
+      <View key={i}>
         <View style={styles.books}>
-          <LibraryBook title={titlesList[titlesCounter++]} />
-          <LibraryBook title={titlesList[titlesCounter++]} />
-          <LibraryBook title={titlesList[titlesCounter++]} />
+          {addBookRow(3)}
         </View>
         <LibraryShelf />
       </View>
     );
   }
-  if (titlesList.length % 3 === 0) {
+
+  if (storiesList.length % 3 > 0) {
     bookshelfs.push(
-      <View>
+      <View key={i+1}>
         <View style={styles.books}>
-          <LibraryBook title={titlesList[titlesCounter++]} />
-          <LibraryBook title={titlesList[titlesCounter++]} />
-          <LibraryBook title={titlesList[titlesCounter++]} />
-        </View>
-        <LibraryShelf />
-      </View>
-    );
-  } else if (titlesList.length % 3 === 1) {
-    bookshelfs.push(
-      <View>
-        <View style={styles.books}>
-          <LibraryBook title={titlesList[titlesCounter++]} />
-        </View>
-        <LibraryShelf />
-      </View>
-    );
-  } else if (titlesList.length % 3 === 2) {
-    bookshelfs.push(
-      <View>
-        <View style={styles.books}>
-          <LibraryBook title={titlesList[titlesCounter++]} />
-          <LibraryBook title={titlesList[titlesCounter++]} />
+          {addBookRow(storiesList.length % 3)}
         </View>
         <LibraryShelf />
       </View>
@@ -51,10 +40,16 @@ export default LibraryBookshelfs = ({ titlesList }) => {
   return <View>{bookshelfs}</View>;
 };
 
-export const LibraryBook = ({ title }) => {
+export const LibraryBook = ({ story, props }) => {
+  function onStoryPressed() {
+    props.navigation.navigate('Story', {
+      pdfUrl: Constants.SERVER_URL + "/api/stories/download/" + story._id,
+      storyId: story._id
+    });
+  }
   return (
-    <TouchableOpacity style={styles.book}>
-      <Text style={styles.bookTitle}>{title}</Text>
+    <TouchableOpacity onPress={onStoryPressed} style={styles.book}>
+      <Text style={styles.bookTitle}>{story.title}</Text>
     </TouchableOpacity>
   );
 };

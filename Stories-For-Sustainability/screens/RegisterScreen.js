@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Input, Button, Icon } from 'react-native-elements';
+// import FontAwesome, { SolidIcons, RegularIcons, BrandIcons } from 'react-native-fontawesome';
 import * as Constants from '../constants/Network'
 
 export default class RegisterScreen extends React.Component {
@@ -11,6 +12,7 @@ export default class RegisterScreen extends React.Component {
       email: '',
       email_valid: true,
       password: '',
+      confirm_password: '',
       error_msg: '',
       showLoading: false,
     };
@@ -22,7 +24,7 @@ export default class RegisterScreen extends React.Component {
     }
 
     submitLoginCredentials() {
-      const { name, email, password } = this.state;
+      const { name, email, password, confirm_password } = this.state;
       this.setState({
         showLoading: true
       });
@@ -51,11 +53,15 @@ export default class RegisterScreen extends React.Component {
     }
   
   render() {
-    const { name, email, password, email_valid, error_msg, showLoading } = this.state;
+    const { name, email, password, confirm_password, email_valid, error_msg, showLoading } = this.state;
 
   return (
     <View style={styles.container}>
         <View style={styles.loginView}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Auth')}>
+            <Image source={require('../back-arrow.png')} style={{width: 40, height: 40}}/>
+            {/* <Text>Back</Text> */}
+          </TouchableOpacity>
           <View style={styles.loginTitle}>
             <View style={{ flexDirection: 'row' }}>
               <Text style={styles.travelText}>Stories For</Text>
@@ -147,8 +153,31 @@ export default class RegisterScreen extends React.Component {
               blurOnSubmit={true}
               placeholderTextColor="black"
             />
-          </View>
-          <Button
+            <Input
+              leftIcon={
+                <Icon
+                  name="lock"
+                  type="font-awesome"
+                  color="rgba(171, 189, 219, 1)"
+                  size={25}
+                />
+              }
+              containerStyle={{ marginVertical: 10 }}
+              onChangeText={confirm_password => this.setState({ confirm_password })}
+              value={confirm_password}
+              inputStyle={{ marginLeft: 10, color: 'black' }}
+              secureTextEntry={true}
+              keyboardAppearance="light"
+              placeholder="Confirm Password"
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="default"
+              returnKeyType="done"
+              ref={input => (this.confirmPasswordInput = input)}
+              blurOnSubmit={true}
+              placeholderTextColor="black"
+            />
+            <Button
             title="REGISTER"
             activeOpacity={1}
             underlayColor="transparent"
@@ -167,8 +196,7 @@ export default class RegisterScreen extends React.Component {
             }}
             containerStyle={{ marginVertical: 10 }}
             titleStyle={{ fontWeight: 'bold', color: 'black' }}
-          />
-          <View style={styles.footerView}>
+            />
             <Text style={{ color: 'grey' }}>Already have an account?</Text>
             <Button
               title="Login"

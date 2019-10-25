@@ -51,7 +51,6 @@ export default class StoryScreen extends React.Component {
                     AsyncStorage.setItem('lastPage_' + storyId, JSON.stringify({page: page}));
                 }}
                 onError={(error)=>{
-                    console.log(error);
                 }}
                 style={styles.pdf}
             />

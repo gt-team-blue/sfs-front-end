@@ -1,78 +1,134 @@
 import React, { Component } from "react";
 import Modal from "react-native-modal";
-import { CheckBox } from 'react-native-elements'
+import { CheckBox } from "react-native-elements";
 
 import { TouchableOpacity, StyleSheet, View, Text, Button } from "react-native";
+import RadioGroup from "react-native-radio-buttons-group";
+import MultiSelect from "react-native-multiple-select";
 
-export default class Toggle extends Component {
-  state= {
+export default class Toggle extends Component<Props> {
+  state = {
     on: false,
     isModalVisible: false,
+    sortType: "",
     checked1: false,
     checked2: false,
     checked3: false,
-    checked4: false
+    checked4: false,
+    buttonData: [
+      {
+        label: "Sort by Title",
+        value: "title",
+        selected: true
+      },
+      {
+        label: "Sort by Author",
+        value: "author",
+        selected: false
+      },
+      {
+        label: "Sort by Genre",
+        value: "genre",
+        selected: false
+      }
+    ],
+    tagData: [
+      {
+        name: "tag1",
+        id: 1
+      },
+      {
+        name: "tag2",
+        id: 2
+      },
+      {
+        name: "tag3",
+        id: 3
+      }
+    ]
   };
 
   toggle = () => {
     this.setState({
       on: !this.state.on,
       isModalVisible: !this.state.isModalVisible
-    })
-  }
+    });
+  };
 
-  toggleCheck1 = () => {
-    this.setState({
-      checked1: !this.state.checked1
-    })
-  }
+  // toggleCheck1 = () => {
+  //   this.props.sortTitles(!this.state.checked1);
+  //   this.setState({
+  //     checked1: !this.state.checked1
+  //   });
+  // };
 
-  toggleCheck2 = () => {
-    this.setState({
-      checked2: !this.state.checked2
-    })
-  }
+  // toggleCheck2 = () => {
+  //   this.props.sortAuthor(!this.state.checked2);
+  //   this.setState({
+  //     checked2: !this.state.checked2
+  //   });
+  // };
 
-  toggleCheck3 = () => {
-    this.setState({
-      checked3: !this.state.checked3
-    })
-  }
+  // toggleCheck3 = () => {
+  //   this.props.sortGenre(!this.state.checked3);
+  //   this.setState({
+  //     checked3: !this.state.checked3
+  //   });
+  // };
 
-  toggleCheck4 = () => {
-    this.setState({
-      checked4: !this.state.checked4
-    })
-  }
+  // toggleCheck4 = () => {
+  //   this.props.sortSDG(!this.state.checked4);
+  //   this.setState({
+  //     checked4: !this.state.checked4
+  //   });
+  // };
+
+  toggleSort = () => {
+    let curSelected = this.state.buttonData.find(e => e.selected === true).value;
+    this.props.sortType(curSelected);
+    this.setState({sortType: curSelected})
+  };
 
   render() {
     return (
       <View style={{ flex: 1 }}>
         <Button title="Filter" onPress={this.toggle} />
-        <Modal isVisible={this.state.isModalVisible} 
-        onBackdropPress={() => this.setState({ isVisible: false })}>
-          <View style={{ flex: 1, justifyContent: "center" }}>
-            <CheckBox
-              title='Sort Titles from A-Z'
-              onPress={this.toggleCheck1}
-              checked={this.state.checked1}
+        <Modal
+          isVisible={this.state.isModalVisible}
+          onBackdropPress={() => this.setState({ isVisible: false })}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              maxHeight: 400,
+              backgroundColor: "white"
+            }}
+          >
+            <RadioGroup
+              radioButtons={this.state.buttonData}
+              onPress={this.toggleSort}
             />
-            <Text>Filter by:
-            </Text>
-            <CheckBox
-              title='Author'
-              onPress={this.toggleCheck2}
-              checked={this.state.checked2}
-            />
-            <CheckBox
-              title='Genre'
-              onPress={this.toggleCheck3}
-              checked={this.state.checked3}
-            />
-            <CheckBox
-              title='SDG'
-              onPress={this.toggleCheck4}
-              checked={this.state.checked4}
+            <MultiSelect
+              hideTags
+              items={this.state.tagData}
+              uniqueKey="id"
+              ref={component => {
+                this.multiSelect = component;
+              }}
+              selectText="Pick Items"
+              searchInputPlaceholderText="Search Items..."
+              onChangeInput={text => console.log(text)}
+              tagRemoveIconColor="#CCC"
+              tagBorderColor="#CCC"
+              tagTextColor="#CCC"
+              selectedItemTextColor="#CCC"
+              selectedItemIconColor="#CCC"
+              itemTextColor="#000"
+              displayKey="name"
+              searchInputStyle={{ color: "#CCC" }}
+              submitButtonColor="#CCC"
+              submitButtonText="Submit"
             />
             <Button title="Apply" onPress={this.toggle} />
           </View>
@@ -80,5 +136,4 @@ export default class Toggle extends Component {
       </View>
     );
   }
-
 }

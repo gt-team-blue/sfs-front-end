@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
 });
 
 const sortTitles = stories => {
-  console.log("in sort titles");
   stories = stories.sort(function(a, b) {
     return a.title <= b.title ? -1 : 1;
   });
@@ -31,7 +30,6 @@ const sortTitles = stories => {
 };
 
 const sortAuthors = stories => {
-  console.log("in sort authors");
   stories = stories.sort(function(a, b) {
     return a.creator <= b.creator ? -1 : 1;
   });
@@ -42,7 +40,6 @@ const sortGenre = stories => {
   stories = stories.sort(function(a, b) {
     return a.genre <= b.genre ? -1 : 1;
   });
-  console.log(stories);
   return stories;
 };
 
@@ -95,7 +92,6 @@ export default class HomeScreen extends React.Component {
           <View>
             <Toggle
               sortType={sortType => {
-                console.log(sortType);
                 if (sortType === "author") {
                   this.setState({ stories: sortAuthors(this.state.stories) });
                 } else if (sortType === "genre") {

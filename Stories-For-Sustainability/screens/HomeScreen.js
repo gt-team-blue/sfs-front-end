@@ -48,6 +48,7 @@ export default class HomeScreen extends React.Component {
     super();
     this.state = {
       stories: [],
+      tagData: null,
       isLoading: true
     };
   }
@@ -64,7 +65,7 @@ export default class HomeScreen extends React.Component {
         var json = JSON.parse(this.response);
         if (json.success && json.success == true) {
           self.setState({
-            stories: sortTitles(json.data)
+            stories: sortTitles(json.data),
           });
         }
         self.setState({
@@ -73,9 +74,31 @@ export default class HomeScreen extends React.Component {
       }
     };
     xhr.send();
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", Constants.SERVER_URL + "/api/stories/tags");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    var self = this;
+    xhr.onreadystatechange = function() {
+      if (this.readyState == XMLHttpRequest.DONE) {
+        var json = JSON.parse(this.response);
+        // console.log(json)
+        // console.log(json.data)
+        if (json.success && json.success == true) {
+          self.setState({
+            tagData: json.data
+          });
+        }
+        self.setState({
+          isLoading: false
+        });
+      }
+    };
+    // console.log(this.state.tagData)
+    xhr.send();
   }
   render() {
     if (this.state.isLoading) return <Text />;
+    // console.log(this.state.tagData)
     return (
       <View style={styles.container}>
         <ScrollView
@@ -100,6 +123,7 @@ export default class HomeScreen extends React.Component {
                   this.setState({ stories: sortTitles(this.state.stories) });
                 }
               }}
+              tagData={this.state.tagData}
             />
           </View>
         </ScrollView>

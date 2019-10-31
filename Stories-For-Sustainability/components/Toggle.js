@@ -5,6 +5,7 @@ import { CheckBox } from "react-native-elements";
 import { TouchableOpacity, StyleSheet, View, Text, Button } from "react-native";
 import RadioGroup from "react-native-radio-buttons-group";
 import MultiSelect from "react-native-multiple-select";
+import PickerCheckBox from "react-native-picker-checkbox";
 
 export default class Toggle extends Component<Props> {
   state = {
@@ -32,20 +33,21 @@ export default class Toggle extends Component<Props> {
         selected: false
       }
     ],
-    tagData: [
-      {
-        name: "tag1",
-        id: 1
-      },
-      {
-        name: "tag2",
-        id: 2
-      },
-      {
-        name: "tag3",
-        id: 3
-      }
-    ]
+    // tagData: [
+    //   {
+    //     name: "tag1",
+    //     id: 1
+    //   },
+    //   {
+    //     name: "tag2",
+    //     id: 2
+    //   },
+    //   {
+    //     name: "tag3",
+    //     id: 3
+    //   }
+    // ],
+    tagData: []
   };
 
   toggle = () => {
@@ -84,12 +86,23 @@ export default class Toggle extends Component<Props> {
   // };
 
   toggleSort = () => {
-    let curSelected = this.state.buttonData.find(e => e.selected === true).value;
+    let curSelected = this.state.buttonData.find(e => e.selected === true)
+      .value;
     this.props.sortType(curSelected);
-    this.setState({sortType: curSelected})
+    this.setState({ sortType: curSelected });
+  };
+
+  createItems = items => {
+    let tags = [];
+    if (items !== null) {
+      items.forEach(function(item, index) {
+        tags.push(<CheckBox title={item} />);
+      });
+    }
   };
 
   render() {
+    // console.log(this.props.tagData)
     return (
       <View style={{ flex: 1 }}>
         <Button title="Filter" onPress={this.toggle} />
@@ -109,9 +122,9 @@ export default class Toggle extends Component<Props> {
               radioButtons={this.state.buttonData}
               onPress={this.toggleSort}
             />
-            <MultiSelect
+            {/* <MultiSelect
               hideTags
-              items={this.state.tagData}
+              items={this.props.tagData}
               uniqueKey="id"
               ref={component => {
                 this.multiSelect = component;
@@ -129,7 +142,8 @@ export default class Toggle extends Component<Props> {
               searchInputStyle={{ color: "#CCC" }}
               submitButtonColor="#CCC"
               submitButtonText="Submit"
-            />
+            /> */}
+            {this.props.tagData && this.createItems(this.props.tagData)}
             <Button title="Apply" onPress={this.toggle} />
           </View>
         </Modal>

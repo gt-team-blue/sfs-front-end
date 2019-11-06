@@ -19,7 +19,6 @@ export default class RegisterScreen extends React.Component {
   }
 
   submitLoginCredentials() {
-    console.log("in submit");
     const { name, email, password, confirm_password } = this.state;
     this.setState({
       showLoading: true

@@ -1,48 +1,51 @@
 import React, { Component } from "react";
 import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
-import * as Constants from '../constants/Network';
+import * as Constants from "../constants/Network";
 
 export default LibraryBookshelfs = ({ storiesList, props }) => {
   let bookshelfs = [];
   let titlesCounter = 0;
-
   function addBookRow(amount) {
     var books = [];
-    for(let i = 0; i < amount; i++) {
-      books.push(<LibraryBook key={storiesList[titlesCounter]._id} story={storiesList[titlesCounter]} props={props} />);
+    for (let i = 0; i < amount; i++) {
+      books.push(
+        <LibraryBook
+          key={storiesList[titlesCounter]._id}
+          story={storiesList[titlesCounter]}
+          props={props}
+        />
+      );
       titlesCounter++;
     }
     return books;
   }
 
-  var i;
-  for (i = 0; i < Math.floor(storiesList.length / 3); i++) {
-    bookshelfs.push(
-      <View key={i}>
-        <View style={styles.books}>
-          {addBookRow(3)}
+  if (storiesList) {
+    var i;
+    for (i = 0; i < Math.floor(storiesList.length / 3); i++) {
+      bookshelfs.push(
+        <View key={i}>
+          <View style={styles.books}>{addBookRow(3)}</View>
+          <LibraryShelf />
         </View>
-        <LibraryShelf />
-      </View>
-    );
-  }
+      );
+    }
 
-  if (storiesList.length % 3 > 0) {
-    bookshelfs.push(
-      <View key={i+1}>
-        <View style={styles.books}>
-          {addBookRow(storiesList.length % 3)}
+    if (storiesList.length % 3 > 0) {
+      bookshelfs.push(
+        <View key={i + 1}>
+          <View style={styles.books}>{addBookRow(storiesList.length % 3)}</View>
+          <LibraryShelf />
         </View>
-        <LibraryShelf />
-      </View>
-    );
+      );
+    }
   }
   return <View>{bookshelfs}</View>;
 };
 
 export const LibraryBook = ({ story, props }) => {
   function onStoryPressed() {
-    props.navigation.navigate('Story', {
+    props.navigation.navigate("Story", {
       pdfUrl: Constants.SERVER_URL + "/api/stories/download/" + story._id,
       storyId: story._id
     });

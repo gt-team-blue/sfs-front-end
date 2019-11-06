@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Modal from "react-native-modal";
+import { ScrollView } from "react-native";
 import { CheckBox } from "react-native-elements";
 
 import { TouchableOpacity, StyleSheet, View, Text, Button } from "react-native";
@@ -11,11 +12,6 @@ export default class Toggle extends Component<Props> {
   state = {
     on: false,
     isModalVisible: false,
-    sortType: "",
-    checked1: false,
-    checked2: false,
-    checked3: false,
-    checked4: false,
     buttonData: [
       {
         label: "Sort by Title",
@@ -26,86 +22,53 @@ export default class Toggle extends Component<Props> {
         label: "Sort by Author",
         value: "author",
         selected: false
-      },
-      {
-        label: "Sort by Genre",
-        value: "genre",
-        selected: false
       }
     ],
-    // tagData: [
-    //   {
-    //     name: "tag1",
-    //     id: 1
-    //   },
-    //   {
-    //     name: "tag2",
-    //     id: 2
-    //   },
-    //   {
-    //     name: "tag3",
-    //     id: 3
-    //   }
-    // ],
-    tagData: []
+    tagged: new Set([]),
+    taggedStories: null
   };
 
-  toggle = () => {
+  toggleFilter = () => {
     this.setState({
       on: !this.state.on,
       isModalVisible: !this.state.isModalVisible
     });
   };
 
-  // toggleCheck1 = () => {
-  //   this.props.sortTitles(!this.state.checked1);
-  //   this.setState({
-  //     checked1: !this.state.checked1
-  //   });
-  // };
+  toggleApply = () => {
+    // filter by tag
+    this.props.filterTag(this.state.tagged);
 
-  // toggleCheck2 = () => {
-  //   this.props.sortAuthor(!this.state.checked2);
-  //   this.setState({
-  //     checked2: !this.state.checked2
-  //   });
-  // };
-
-  // toggleCheck3 = () => {
-  //   this.props.sortGenre(!this.state.checked3);
-  //   this.setState({
-  //     checked3: !this.state.checked3
-  //   });
-  // };
-
-  // toggleCheck4 = () => {
-  //   this.props.sortSDG(!this.state.checked4);
-  //   this.setState({
-  //     checked4: !this.state.checked4
-  //   });
-  // };
-
-  toggleSort = () => {
+    // sort by author/title
     let curSelected = this.state.buttonData.find(e => e.selected === true)
       .value;
     this.props.sortType(curSelected);
-    this.setState({ sortType: curSelected });
+
+    this.setState({
+      on: !this.state.on,
+      isModalVisible: !this.state.isModalVisible
+    });
   };
 
-  createItems = items => {
-    let tags = [];
-    if (items !== null) {
-      items.forEach(function(item, index) {
-        tags.push(<CheckBox title={item} />);
-      });
+  onChecked = tagName => {
+    let curTagged = this.state.tagged;
+    if (curTagged.has(tagName)) {
+      curTagged.delete(tagName);
+    } else {
+      curTagged.add(tagName);
     }
+    this.setState({ tagged: curTagged });
+  };
+
+  checkChecked = tagName => {
+    return this.state.tagged.has(tagName);
   };
 
   render() {
-    // console.log(this.props.tagData)
     return (
       <View style={{ flex: 1 }}>
-        <Button title="Filter" onPress={this.toggle} />
+        <Button title="Filter" onPress={this.toggleFilter} />
+
         <Modal
           isVisible={this.state.isModalVisible}
           onBackdropPress={() => this.setState({ isVisible: false })}
@@ -114,37 +77,27 @@ export default class Toggle extends Component<Props> {
             style={{
               flex: 1,
               justifyContent: "center",
-              maxHeight: 400,
+              maxHeight: 600,
               backgroundColor: "white"
             }}
           >
-            <RadioGroup
-              radioButtons={this.state.buttonData}
-              onPress={this.toggleSort}
-            />
-            {/* <MultiSelect
-              hideTags
-              items={this.props.tagData}
-              uniqueKey="id"
-              ref={component => {
-                this.multiSelect = component;
-              }}
-              selectText="Pick Items"
-              searchInputPlaceholderText="Search Items..."
-              onChangeInput={text => console.log(text)}
-              tagRemoveIconColor="#CCC"
-              tagBorderColor="#CCC"
-              tagTextColor="#CCC"
-              selectedItemTextColor="#CCC"
-              selectedItemIconColor="#CCC"
-              itemTextColor="#000"
-              displayKey="name"
-              searchInputStyle={{ color: "#CCC" }}
-              submitButtonColor="#CCC"
-              submitButtonText="Submit"
-            /> */}
-            {this.props.tagData && this.createItems(this.props.tagData)}
-            <Button title="Apply" onPress={this.toggle} />
+            <ScrollView>
+              <RadioGroup
+                radioButtons={this.state.buttonData}
+                onPress={() => {}}
+              />
+              {this.props.tagData &&
+                this.props.tagData.map(tag => (
+                  <View>
+                    <CheckBox
+                      title={tag}
+                      onPress={() => this.onChecked(tag)}
+                      checked={this.checkChecked(tag)}
+                    />
+                  </View>
+                ))}
+              <Button title="Apply" onPress={this.toggleApply} />
+            </ScrollView>
           </View>
         </Modal>
       </View>

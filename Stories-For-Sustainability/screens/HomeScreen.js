@@ -36,20 +36,14 @@ const sortAuthors = stories => {
   return stories;
 };
 
-const sortGenre = stories => {
-  stories = stories.sort(function(a, b) {
-    return a.genre <= b.genre ? -1 : 1;
-  });
-  return stories;
-};
-
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super();
     this.state = {
       stories: [],
       tagData: null,
-      isLoading: true
+      isLoading: true,
+      sortType: ""
     };
   }
   componentWillMount() {
@@ -65,7 +59,7 @@ export default class HomeScreen extends React.Component {
         var json = JSON.parse(this.response);
         if (json.success && json.success == true) {
           self.setState({
-            stories: sortTitles(json.data),
+            stories: sortTitles(json.data)
           });
         }
         self.setState({
@@ -74,6 +68,7 @@ export default class HomeScreen extends React.Component {
       }
     };
     xhr.send();
+
     var xhr = new XMLHttpRequest();
     xhr.open("GET", Constants.SERVER_URL + "/api/stories/tags");
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -81,8 +76,6 @@ export default class HomeScreen extends React.Component {
     xhr.onreadystatechange = function() {
       if (this.readyState == XMLHttpRequest.DONE) {
         var json = JSON.parse(this.response);
-        // console.log(json)
-        // console.log(json.data)
         if (json.success && json.success == true) {
           self.setState({
             tagData: json.data
@@ -93,12 +86,33 @@ export default class HomeScreen extends React.Component {
         });
       }
     };
-    // console.log(this.state.tagData)
     xhr.send();
   }
+
+  filterStories = tags => {
+    tags = Array.from(tags);
+    const tagBody = {
+      tags: tags
+    };
+    let taggedStories = [];
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", Constants.SERVER_URL + "/api/stories/storiesWithTags");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    var self = this;
+    xhr.onreadystatechange = function() {
+      if (this.readyState == XMLHttpRequest.DONE) {
+        var json = JSON.parse(this.response);
+        if (json.success && json.success == true) {
+          taggedStories = json.data;
+          self.setState({ stories: json.data });
+        }
+      }
+    };
+    xhr.send(JSON.stringify(tagBody));
+  };
+
   render() {
     if (this.state.isLoading) return <Text />;
-    // console.log(this.state.tagData)
     return (
       <View style={styles.container}>
         <ScrollView
@@ -117,11 +131,12 @@ export default class HomeScreen extends React.Component {
               sortType={sortType => {
                 if (sortType === "author") {
                   this.setState({ stories: sortAuthors(this.state.stories) });
-                } else if (sortType === "genre") {
-                  this.setState({ stories: sortGenre(this.state.stories) });
                 } else {
                   this.setState({ stories: sortTitles(this.state.stories) });
                 }
+              }}
+              filterTag={tags => {
+                this.filterStories(tags);
               }}
               tagData={this.state.tagData}
             />

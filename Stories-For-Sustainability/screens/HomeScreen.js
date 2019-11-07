@@ -104,7 +104,7 @@ export default class HomeScreen extends React.Component {
         var json = JSON.parse(this.response);
         if (json.success && json.success == true) {
           taggedStories = json.data;
-          self.setState({ stories: json.data });
+          self.setState({ stories: sortTitles(json.data) });
         }
       }
     };

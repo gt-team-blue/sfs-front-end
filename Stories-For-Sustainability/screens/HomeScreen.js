@@ -51,12 +51,57 @@ export default class HomeScreen extends React.Component {
     super();
     this.state = {
       stories: [],
+      allStories: [],
       tagData: null,
       isLoading: true,
       sortType: ""
     };
   }
   componentWillMount() {
+    this.setState({
+      isLoading: true
+    });
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", Constants.SERVER_URL + "/api/stories/stories");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    var self = this;
+    xhr.onreadystatechange = function() {
+      if (this.readyState == XMLHttpRequest.DONE) {
+        var json = JSON.parse(this.response);
+        if (json.success && json.success == true) {
+          self.setState({
+            stories: sortTitles(json.data),
+            allStories: sortTitles(json.data)
+          });
+        }
+        self.setState({
+          isLoading: false
+        });
+      }
+    };
+    xhr.send();
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", Constants.SERVER_URL + "/api/stories/tags");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    var self = this;
+    xhr.onreadystatechange = function() {
+      if (this.readyState == XMLHttpRequest.DONE) {
+        var json = JSON.parse(this.response);
+        if (json.success && json.success == true) {
+          self.setState({
+            tagData: ['Select All', ...json.data]
+          });
+        }
+        self.setState({
+          isLoading: false
+        });
+      }
+    };
+    xhr.send();
+  }
+
+  getAllStories = stories => {
     this.setState({
       isLoading: true
     });
@@ -78,26 +123,7 @@ export default class HomeScreen extends React.Component {
       }
     };
     xhr.send();
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", Constants.SERVER_URL + "/api/stories/tags");
-    xhr.setRequestHeader("Content-Type", "application/json");
-    var self = this;
-    xhr.onreadystatechange = function() {
-      if (this.readyState == XMLHttpRequest.DONE) {
-        var json = JSON.parse(this.response);
-        if (json.success && json.success == true) {
-          self.setState({
-            tagData: json.data
-          });
-        }
-        self.setState({
-          isLoading: false
-        });
-      }
-    };
-    xhr.send();
-  }
+  };
 
   filterStories = tags => {
     tags = Array.from(tags);
@@ -147,7 +173,14 @@ export default class HomeScreen extends React.Component {
                 }
               }}
               filterTag={tags => {
-                this.filterStories(tags);
+                tempTags = [...tags]
+                if (tempTags.some(item => "Select All" === item)) {
+                  // this.getAllStories(this.state.stories)
+                  // console.log(this.state.allStories)
+                  this.setState({ stories: sort( this.state.allStories, this.state.sortType ) });
+                } else {
+                  this.filterStories(tags);
+                }
               }}
               tagData={this.state.tagData}
             />

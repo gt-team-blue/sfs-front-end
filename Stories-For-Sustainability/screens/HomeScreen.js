@@ -36,6 +36,16 @@ const sortAuthors = stories => {
   return stories;
 };
 
+const sort = (stories, sortType) => {
+  if (sortType === "author") {
+    stories =  sortAuthors(stories)
+  } else {
+    stories = sortTitles(stories)
+  }
+  return stories;
+}
+
+
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super();
@@ -104,7 +114,8 @@ export default class HomeScreen extends React.Component {
         var json = JSON.parse(this.response);
         if (json.success && json.success == true) {
           taggedStories = json.data;
-          self.setState({ stories: sortTitles(json.data) });
+          self.setState({ stories: json.data });
+          self.setState({ stories: sort( self.state.stories, self.state.sortType ) });
         }
       }
     };
@@ -130,9 +141,9 @@ export default class HomeScreen extends React.Component {
             <Toggle
               sortType={sortType => {
                 if (sortType === "author") {
-                  this.setState({ stories: sortAuthors(this.state.stories) });
+                  this.setState({ stories: sortAuthors(this.state.stories), sortType: "author" });
                 } else {
-                  this.setState({ stories: sortTitles(this.state.stories) });
+                  this.setState({ stories: sortTitles(this.state.stories), sortType: "title"  });
                 }
               }}
               filterTag={tags => {

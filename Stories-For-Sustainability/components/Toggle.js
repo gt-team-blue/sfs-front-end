@@ -8,6 +8,15 @@ import RadioGroup from "react-native-radio-buttons-group";
 import MultiSelect from "react-native-multiple-select";
 import PickerCheckBox from "react-native-picker-checkbox";
 
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 50
+  },
+  tags: {
+    marginLeft: 30
+  }
+});
+
 export default class Toggle extends Component<Props> {
   state = {
     on: false,
@@ -52,10 +61,21 @@ export default class Toggle extends Component<Props> {
 
   onChecked = tagName => {
     let curTagged = this.state.tagged;
-    if (curTagged.has(tagName)) {
-      curTagged.delete(tagName);
-    } else {
+    if (tagName == "selectAll" && !curTagged.has(tagName)) {
+      for (let i = 0; i < this.props.tagData.length; i++) {
+        if (!curTagged.has(this.props.tagData[i])) {
+          curTagged.add(this.props.tagData[i]);
+        }
+      }
       curTagged.add(tagName);
+    } else if (tagName == "selectAll") {
+      curTagged = new Set([]);
+    } else {
+      if (curTagged.has(tagName)) {
+        curTagged.delete(tagName);
+      } else {
+        curTagged.add(tagName);
+      }
     }
     this.setState({ tagged: curTagged });
   };
@@ -81,14 +101,19 @@ export default class Toggle extends Component<Props> {
               backgroundColor: "white"
             }}
           >
-            <ScrollView>
+            <ScrollView style={{ marginTop: 50 }}>
               <RadioGroup
                 radioButtons={this.state.buttonData}
                 onPress={() => {}}
               />
+              <CheckBox
+                title="Select All"
+                onPress={() => this.onChecked("selectAll")}
+                checked={this.checkChecked("selectAll")}
+              />
               {this.props.tagData &&
                 this.props.tagData.map(tag => (
-                  <View>
+                  <View style={styles.tags}>
                     <CheckBox
                       title={tag}
                       onPress={() => this.onChecked(tag)}

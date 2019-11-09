@@ -175,9 +175,9 @@ export default class HomeScreen extends React.Component {
               filterTag={tags => {
                 tempTags = [...tags]
                 if (tempTags.some(item => "Select All" === item)) {
-                  // this.getAllStories(this.state.stories)
+                  this.getAllStories(this.state.stories)
                   // console.log(this.state.allStories)
-                  this.setState({ stories: sort( this.state.allStories, this.state.sortType ) });
+                  // this.setState({ stories: sort( this.state.allStories, this.state.sortType ) });
                 } else {
                   this.filterStories(tags);
                 }

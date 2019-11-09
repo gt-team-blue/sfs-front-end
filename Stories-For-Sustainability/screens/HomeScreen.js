@@ -36,16 +36,6 @@ const sortAuthors = stories => {
   return stories;
 };
 
-const sort = (stories, sortType) => {
-  if (sortType === "author") {
-    stories =  sortAuthors(stories)
-  } else {
-    stories = sortTitles(stories)
-  }
-  return stories;
-}
-
-
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super();
@@ -90,7 +80,7 @@ export default class HomeScreen extends React.Component {
         var json = JSON.parse(this.response);
         if (json.success && json.success == true) {
           self.setState({
-            tagData: ['Select All', ...json.data]
+            tagData: json.data
           });
         }
         self.setState({
@@ -101,7 +91,7 @@ export default class HomeScreen extends React.Component {
     xhr.send();
   }
 
-  getAllStories = stories => {
+  getAllStories = () => {
     this.setState({
       isLoading: true
     });
@@ -141,7 +131,6 @@ export default class HomeScreen extends React.Component {
         if (json.success && json.success == true) {
           taggedStories = json.data;
           self.setState({ stories: json.data });
-          self.setState({ stories: sort( self.state.stories, self.state.sortType ) });
         }
       }
     };
@@ -167,14 +156,20 @@ export default class HomeScreen extends React.Component {
             <Toggle
               sortType={sortType => {
                 if (sortType === "author") {
-                  this.setState({ stories: sortAuthors(this.state.stories), sortType: "author" });
+                  this.setState({
+                    stories: sortAuthors(this.state.stories),
+                    sortType: "author"
+                  });
                 } else {
-                  this.setState({ stories: sortTitles(this.state.stories), sortType: "title"  });
+                  this.setState({
+                    stories: sortTitles(this.state.stories),
+                    sortType: "title"
+                  });
                 }
               }}
               filterTag={tags => {
                 tempTags = [...tags]
-                if (tempTags.some(item => "Select All" === item)) {
+                if (tempTags.some(item => "selectAll" === item)) {
                   this.getAllStories(this.state.stories)
                   // console.log(this.state.allStories)
                   // this.setState({ stories: sort( this.state.allStories, this.state.sortType ) });

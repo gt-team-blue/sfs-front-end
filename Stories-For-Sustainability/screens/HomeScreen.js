@@ -168,10 +168,8 @@ export default class HomeScreen extends React.Component {
                 }
               }}
               filterTag={tags => {
-                tempTags = [...tags]
-                if (tempTags.some(item => "selectAll" === item)) {
-                  this.getAllStories(this.state.stories)
-                  // console.log(this.state.allStories)
+                if (tags.has("selectAll")) {
+                  this.getAllStories();
                   // this.setState({ stories: sort( this.state.allStories, this.state.sortType ) });
                 } else {
                   this.filterStories(tags);

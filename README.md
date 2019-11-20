@@ -31,7 +31,7 @@
 
 For the installation and running of any component of the Stories for Sustainability project, we assume the user has installed both Git and Node.js for the command line. The rest of the dependent third-party libraries should be automatically installed and managed via NPM (packaged with Node.js).
 
-The user will also need to install the [Expo CLI](https://docs.expo.io/versions/latest/get-started/installation/) in order to run the mobile app.
+The user will also need to install the [Expo CLI](https://docs.expo.io/versions/latest/get-started/installation/) as well as [CocoaPods](https://guides.cocoapods.org/using/getting-started.html) in order to run the mobile app.
 
 **Installation:**
 

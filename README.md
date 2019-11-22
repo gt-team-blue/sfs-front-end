@@ -87,3 +87,11 @@ It is useful to run the back-end and front-end components together to test funct
 2. For the mobile app, change the SERVER_URL variable (located [here](https://github.com/gt-team-blue/sfs-front-end/blob/a8bb42ffca157dd04690f9630bf3b50d4d6c0145/Stories-For-Sustainability/constants/Network.js#L1)) from 'server.aidancbrady.com:5000' to 'localhost:5000'
 3. For the website, change the SERVER_URL variable (located [here](https://github.com/gt-team-blue/sfs-website/blob/aa06e94d7fa068270b13a50acd0320a425e78d66/StoriesForSustainability/src/app/constants/Network.ts#L1)) from 'server.aidancbrady.com:5000' to 'localhost:5000'
 4. Run the mobile app and/or web server in separate command line instances (as explained above)
+
+**Troubleshooting:**
+
+'git/npm/expo/pod is not recognized as an internal or external command'
+> Make sure you've installed the required components as outlined in the *Pre-Requisites* section above.
+
+'The "git/npm/expo/pod" command requires the command line developer tools. Would you like to install the tools now?'
+> The Xcode command line tools are required for certain commands. Run the installation if you receive this prompt.

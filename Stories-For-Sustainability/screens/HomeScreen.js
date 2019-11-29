@@ -145,14 +145,14 @@ export default class HomeScreen extends React.Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View>
+          <View key={"bookshelf"}>
             <Text style={styles.libraryTitle}>Library</Text>
             <LibraryBookshelfs
               storiesList={this.state.stories}
               props={this.props}
             />
           </View>
-          <View>
+          <View key={"sort"}>
             <Toggle
               sortType={sortType => {
                 if (sortType === "author") {

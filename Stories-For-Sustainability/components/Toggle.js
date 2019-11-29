@@ -103,17 +103,19 @@ export default class Toggle extends Component<Props> {
           >
             <ScrollView style={{ marginTop: 50 }}>
               <RadioGroup
+                key={"radio"}
                 radioButtons={this.state.buttonData}
                 onPress={() => {}}
               />
               <CheckBox
+                key={"checkbox"}
                 title="Select All"
                 onPress={() => this.onChecked("selectAll")}
                 checked={this.checkChecked("selectAll")}
               />
               {this.props.tagData &&
                 this.props.tagData.map(tag => (
-                  <View style={styles.tags}>
+                  <View key={tag} style={styles.tags}>
                     <CheckBox
                       title={tag}
                       onPress={() => this.onChecked(tag)}
